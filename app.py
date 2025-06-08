@@ -14,7 +14,13 @@ MODEL      = "gemini-1.5-flash"
 TIMEZONE   = "America/Los_Angeles"
 SCOPES     = ["https://www.googleapis.com/auth/calendar"]
 
-creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+import os
+import json
+from google.oauth2.credentials import Credentials
+
+token_json_str = os.getenv("TOKEN_JSON")
+creds = Credentials.from_authorized_user_info(json.loads(token_json_str), SCOPES)
+
 
 app = Flask(__name__)
 CORS(app)                      # allow requests from the Streamlit front-end
